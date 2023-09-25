@@ -1,0 +1,17 @@
+_deps\
+.vs\
+CMakeFiles\
+Debug\
+Release\
+ext\
+noizSFML.dir\
+x64\
+
+*.vcxproj
+*.filters
+*.cmake
+*.user
+*.bak
+
+CMakeCache.txt
+New Text Document.txt
