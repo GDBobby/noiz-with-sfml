@@ -49,13 +49,13 @@ void TerrainGeneration::processEvent(sf::Event& event) {
 			switch (terrainGUI.persistance.click(renderWindow)) {
 				case 0: {
 					persistance /= 2.f;
-					terrainGUI.persistance.value.setText(std::to_string(persistance));
+					terrainGUI.persistance.value.setText(std::format("{:.2f}", persistance));
 					regenerateImage();
 					break;
 				}
 				case 1: {
 					persistance *= 2.f;
-					terrainGUI.persistance.value.setText(std::to_string(persistance));
+					terrainGUI.persistance.value.setText(std::format("{:.2f}", persistance));
 					regenerateImage();
 					break;
 				}
@@ -64,14 +64,14 @@ void TerrainGeneration::processEvent(sf::Event& event) {
 				case 0: {
 					if (lacunarity > 0.1f) {
 						lacunarity -= 0.1f;
-						terrainGUI.lacunarity.value.setText(std::to_string(lacunarity));
+						terrainGUI.lacunarity.value.setText(std::format("{:.1f}", lacunarity));
 						regenerateImage();
 					}
 					break;
 				}
 				case 1: {
 					lacunarity += 0.1f;
-					terrainGUI.lacunarity.value.setText(std::to_string(lacunarity));
+					terrainGUI.lacunarity.value.setText(std::format("{:.1f}", lacunarity));
 					regenerateImage();
 				
 					break;

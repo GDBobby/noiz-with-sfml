@@ -15,8 +15,8 @@ public:
 		terrainGUI.water.value.setText(std::to_string(water_level));
 
 		std::string persistance_string = std::to_string(persistance);
-		terrainGUI.persistance.value.setText(std::format("{:.1f}", persistance));
-		terrainGUI.lacunarity.value.setText(std::to_string(lacunarity));
+		terrainGUI.persistance.value.setText(std::format("{:.2f}", persistance));
+		terrainGUI.lacunarity.value.setText(std::format("{:.1f}", lacunarity));
 		generateImage();
 	}
 	void draw() {
