@@ -15,7 +15,7 @@ Label::Label(sf::Vector2f pos, int fontSz, std::string string, char relation, sf
 	setPosition(pos, relation, relationSize);
 }
 
-void Label::setPosition(sf::Vector2f pos, char relation, sf::Vector2f posDif = { 100,0 }) {
+void Label::setPosition(sf::Vector2f pos, char relation, sf::Vector2f posDif) {
 	position = pos;
 	relPos = relation;
 	posDiff = posDif;
@@ -120,24 +120,6 @@ Textbox::Textbox(sf::Vector2f pos, int fontSize, sf::Font& font, sf::Vector2f bo
 	textRect.setOutlineThickness(1);
 	textRect.setOutlineColor(sf::Color::Black);
 }
-Textbox::Textbox(sf::Vector2f pos, int fontSize, sf::Vector2f boxSize, sf::Color color, int limitInit, std::string string, bool isEditable) {
-	setPosition(pos);
-	canEdit = isEditable;
-
-	textbox.setCharacterSize(fontSize);
-	textbox.setFillColor(sf::Color::Black);
-
-	textbox.setString(string);
-	text.str(string);
-
-	textRect.setSize(boxSize);
-	textRect.setFillColor(color);
-
-	limit = limitInit;
-
-	textRect.setOutlineThickness(1);
-	textRect.setOutlineColor(sf::Color::Black);
-}
 
 void Textbox::setPosition(sf::Vector2f pos) {
 	textRect.setPosition(pos);
@@ -170,6 +152,10 @@ void Textbox::drawTo(sf::RenderWindow& window) {
 void Textbox::typedOn(sf::Event input) {
 	if (isSelected && canEdit) {
 		int charTyped = input.text.unicode;
+		if (charTyped == ENTER_KEY) {
+			isSelected = false;
+			return;
+		}
 		if (charTyped < 128) {
 			if (hasLimit) {
 				if (text.str().length() < limit) {

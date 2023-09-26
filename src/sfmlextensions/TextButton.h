@@ -31,7 +31,7 @@ public:
 	Label() {}
 	Label(sf::Vector2f pos, int fontSz, std::string string, char relation, sf::Font& font, sf::Vector2f relationSize = { 100,0 });
 
-	void setPosition(sf::Vector2f pos, char relation, sf::Vector2f posDif);
+	void setPosition(sf::Vector2f pos, char relation, sf::Vector2f posDif = { 100,0 });
 
 	void setText(std::string setter);
 
@@ -61,7 +61,7 @@ private:
 	bool hasLimit = true;
 	int limit = 5;
 	bool hasLabel = false;
-	bool canEdit = true;
+	bool canEdit = false;
 	bool isActive = true;
 
 	void inputLogic(int charTyped);
@@ -72,7 +72,6 @@ private:
 public:
 	Textbox() {}
 	Textbox(sf::Vector2f pos, int fontSize, sf::Font& font, sf::Vector2f boxSize, sf::Color color, int limitInit, std::string string);
-	Textbox(sf::Vector2f pos, int fontSize, sf::Vector2f boxSize, sf::Color color, int limitInit, std::string string, bool isEditable);
 
 	void setPosition(sf::Vector2f pos);
 
@@ -103,10 +102,11 @@ public:
 	//Textbox(sf::Vector2f pos, int fontSize, sf::Vector2f boxSize, sf::Color color, int limitInit, std::string string = "") {
 	//Label(sf::Vector2f pos, int fontSz, std::string string, char relation, sf::Font &font, sf::Vector2f relationSize = { 100,0 }) {
 
-	TextboxWLabel(sf::Vector2f pos, int fontSize, sf::Font& font, std::string labstring, std::string boxstring, sf::Vector2f boxSize, sf::Color color, int limitInit, char relation, sf::Vector2f relSize) {
-
-		label = std::make_unique<Label>(pos, fontSize, labstring, relation, font, relSize);
-		textbox = std::make_unique<Textbox>(pos, fontSize, font, boxSize, color, limitInit, boxstring);
+	TextboxWLabel(sf::Vector2f pos, int fontSize, sf::Font& font, std::string labstring, std::string boxstring, sf::Vector2f boxSize, sf::Color color, int limitInit, char relation)
+		: label{ std::make_unique<Label>(pos, fontSize, labstring, relation, font) },
+		textbox{ std::make_unique<Textbox>(pos, fontSize, font, boxSize, color, limitInit, boxstring) }
+	{
+		//idk why i need to do this, too lazy to check
 		textbox->setBoxTrans();
 
 	}
@@ -118,10 +118,6 @@ public:
 	}
 
 };
-
-
-
-
 
 class TextButton
 {
@@ -159,8 +155,6 @@ public:
 
 	bool isMouseOver(sf::RenderWindow& window);
 };
-
-
 
 class ImageButton
 {

@@ -1,11 +1,11 @@
-_deps\
-.vs\
-CMakeFiles\
-Debug\
-Release\
-ext\
-noizSFML.dir\
-x64\
+_deps/
+.vs/
+CMakeFiles/
+Debug/
+Release/
+ext/
+noizSFML.dir/
+x64/
 
 *.vcxproj
 *.filters
