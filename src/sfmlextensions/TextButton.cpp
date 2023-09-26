@@ -445,7 +445,7 @@ comboBox::comboBox(sf::Vector2f pos, int fontSz, sf::Font& fnt, float initWidth 
 	width = initWidth;
 	fontSize = fontSz;
 
-	dropTexture.loadFromFile("resources\\dropbox.png");
+	dropTexture.loadFromFile("res\\dropbox.png");
 
 	ravelledSprite.setTexture(dropTexture);
 	ravelledSprite.setTextureRect({ 16,0,16,16 });
@@ -504,20 +504,6 @@ char comboBox::isMouseOver(sf::RenderWindow& window) {
 	float btnxPosWidth = droppedSprite.getPosition().x + droppedSprite.getLocalBounds().width;
 	float btnyPosHeight = droppedSprite.getPosition().y + droppedSprite.getLocalBounds().height;
 
-	if (mouseX < btnxPosWidth && mouseX > btnPosX && mouseY < btnyPosHeight && mouseY > btnPosY) {
-
-		if (isDropped) {
-			isDropped = false;
-			ravelUp();
-		}
-		else {
-			isDropped = true;
-			dropDown();
-		}
-	}
-
-
-
 	for (int i = 0; i < numberOfItems; i++) {
 		if (contents[i].isMouseOver(window)) {
 			for (int ii = 0; ii < numberOfItems; ii++) {
@@ -530,6 +516,19 @@ char comboBox::isMouseOver(sf::RenderWindow& window) {
 			}
 			return -2;
 		}
+	}
+
+	if (mouseX < btnxPosWidth && mouseX > btnPosX && mouseY < btnyPosHeight && mouseY > btnPosY) {
+
+		if (isDropped) {
+			ravelUp();
+		}
+		else {
+			dropDown();
+		}
+	}
+	else if (isDropped) {
+		ravelUp();
 	}
 	return -1;
 }

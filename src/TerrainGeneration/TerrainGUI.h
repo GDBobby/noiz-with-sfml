@@ -64,60 +64,19 @@ struct TerrainGUI {
 		}
 	};
 
-	TerrainGUI(uint16_t image_size, sf::Font& font) :
-		title{ sf::Vector2f{static_cast<float>(image_size * 4), 0.f}, 24, "Terrain Generation", 0, font },
-		//octaveControl{ sf::Vector2f{static_cast<float>(image_size) + 400.f, 100.f}, 24, font, "Octave", "", sf::Vector2f{50.f, 30.f}, sf::Color::White, 4, 1},
-		//octaveButtons{ std::pair<ImageButton, ImageButton>{ImageButton{{16.f,16.f}, sf::Color::Black}, ImageButton{{16.f,16.f}, sf::Color::Black}} },
-		octave{"Octave", sf::Vector2f{static_cast<float>(image_size) + 400.f, 100.f}, Perlin_Control::BT_iterary, font},
-		water{ "Water Level", sf::Vector2f{ static_cast<float>(image_size) + 500.f, 100.f }, Perlin_Control::BT_iterary, font },
-		persistance {"Persistance", sf::Vector2f{ static_cast<float>(image_size) + 400.f, 200.f }, Perlin_Control::BT_shifty, font},
-		lacunarity{ "Lacunarity", sf::Vector2f{ static_cast<float>(image_size) + 400.f, 300.f }, Perlin_Control::BT_iterary, font },
-		regenerateSeed{ "new seed", sf::Vector2f{static_cast<float>(image_size) + 400.f, 20.f}, 24, sf::Color{20,20,20,255}, sf::Color::Red, font, 2.f }
-	{
-		title.setTextColor(sf::Color::White);
-		//octaveControl.label->setTextColor(sf::Color::White);
-		//octaveControl.label->setPosition(sf::Vector2f{ static_cast<float>(image_size) + 400.f, 70.f }, 4);
-		//title.setActivity(true);
-		//std::cout << "Font family length? : " << font.getInfo().family.length() << std::endl;
-		//std::cout << image_size << std::endl;
+	TerrainGUI(uint16_t image_size, sf::Font& font);
 
-		//octaveButtonTexturePair.first.loadFromFile("res/minus.png");
-		//octaveButtonTexturePair.second.loadFromFile("res/plus.png");
-		//octaveButtonSpritePair.first.setTexture(octaveButtonTexturePair.first);
-		//octaveButtonSpritePair.second.setTexture(octaveButtonTexturePair.second);
+	void draw(sf::RenderWindow& renderWindow);
 
-		//octaveButtons.first.setPosition(sf::Vector2f{ static_cast<float>(image_size) + 400.f, 130.f }, octaveButtonSpritePair.first);
-		//octaveButtons.second.setPosition(sf::Vector2f{ static_cast<float>(image_size) + 420.f, 130.f }, octaveButtonSpritePair.second);
-		
-	}
-	
 	Label title;
 	Perlin_Control octave;
 	Perlin_Control water;
 	Perlin_Control persistance;
 	Perlin_Control lacunarity;
+	Perlin_Control frequency;
+	Perlin_Control amplitude;
+
+	comboBox generationType;
 
 	TextButton regenerateSeed;
-
-	//TextboxWLabel octaveControl;
-	//std::pair<ImageButton, ImageButton> octaveButtons;
-
-	//std::pair<sf::Texture, sf::Texture> octaveButtonTexturePair;
-	//std::pair<sf::Sprite, sf::Sprite> octaveButtonSpritePair;
-
-	void draw(sf::RenderWindow& renderWindow) {
-		//std::cout << "pls" << std::endl;
-		title.drawTo(renderWindow);
-		octave.draw(renderWindow);
-		water.draw(renderWindow);
-		persistance.draw(renderWindow);
-		lacunarity.draw(renderWindow);
-		regenerateSeed.draw(renderWindow);
-		//octaveControl.draw(renderWindow);
-		//octaveButtons.first.drawTo(renderWindow);
-		//octaveButtons.second.drawTo(renderWindow);
-		//renderWindow.draw(octaveButtonSpritePair.first);
-		//renderWindow.draw(octaveButtonSpritePair.second);
-	}
-
 };
