@@ -3,7 +3,6 @@ _deps/
 CMakeFiles/
 Debug/
 Release/
-ext/
 noizSFML.dir/
 x64/
 

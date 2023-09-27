@@ -76,7 +76,12 @@ struct TerrainGUI {
 	Perlin_Control frequency;
 	Perlin_Control amplitude;
 
+	Perlin_Control textureCount;
+
+
 	comboBox generationType;
+
+	Perlin_Control steps;
 
 	TextButton regenerateSeed;
 };

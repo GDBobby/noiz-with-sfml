@@ -1,7 +1,8 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <noiz/include/noiz/noise2.hpp>
+#include <noiz/noise2.hpp>
+#include <noiz/noise-processing2.hpp>
 
 #include "TerrainGUI.h"
 
@@ -10,15 +11,19 @@
 
 class TerrainGeneration {
 public:
-	explicit TerrainGeneration(sf::RenderWindow& window, sf::Font& font) : image_size{ 256 }, renderWindow { window }, font{ font }, terrainGUI{ 256, font} {
-		terrainGUI.octave.value.setText(std::to_string(octave));
+	explicit TerrainGeneration(sf::RenderWindow& window, sf::Font& font) : image_size{ 256 }, renderWindow{ window }, font{ font }, terrainGUI{ 256, font }, currently_selected_texture{ 0 }, texture_count{ 1 } {
+		//currently_selected_texture = 0;
+
+		noise_structs.emplace_back();
+
+		terrainGUI.octave.value.setText(std::to_string(noise_structs[currently_selected_texture].noise_processor.octave));
 		terrainGUI.water.value.setText(std::to_string(water_level));
 
-		std::string persistance_string = std::to_string(persistance);
-		terrainGUI.persistance.value.setText(std::format("{:.2f}", persistance));
-		terrainGUI.lacunarity.value.setText(std::format("{:.1f}", lacunarity));
+		std::string persistence_string = std::to_string(noise_structs[currently_selected_texture].noise_processor.persistence);
+		terrainGUI.persistance.value.setText(std::format("{:.2f}", noise_structs[currently_selected_texture].noise_processor.persistence));
+		terrainGUI.lacunarity.value.setText(std::format("{:.1f}", noise_structs[currently_selected_texture].noise_processor.lacunarity));
+		terrainGUI.textureCount.value.setText("1");
 		generateImage();
-
 		noisePointer = &TerrainGeneration::basicNoise;
 	}
 	void draw() {
@@ -33,8 +38,6 @@ private:
 	void generateImage();
 	void regenerateImage();
 
-	uint8_t (TerrainGeneration::*noisePointer)(noiz::Vec2f const&);
-
 	void generateTurbulentImage();
 
 	void add_noise_to_pixels(const uint8_t noise, int const& x, int const& y);
@@ -48,7 +51,6 @@ private:
 	uint8_t billowyNoise(noiz::Vec2f const& point);
 	uint8_t rigidNoise(noiz::Vec2f const& point);
 	uint8_t hybridMultifractalNoise(noiz::Vec2f const& point);
-	uint8_t MultiLayerBasicNoise(noiz::Vec2f const& point);
 
 	sf::Color grass_color{ sf::Color::Green };
 	sf::Color water_color{ sf::Color::Blue };
@@ -57,16 +59,32 @@ private:
 	sf::RenderWindow& renderWindow;
 
 	sf::Font& font;
-	noiz::Noise2f noise;
+	uint8_t(TerrainGeneration::* noisePointer)(noiz::Vec2f const&);
+
+	struct Noise_Struct {
+		noiz::Noise2f noise;
+		noiz::Noise_Processor2f noise_processor;
+
+
+		Noise_Struct() : noise{}, noise_processor{ noise } {}
+
+
+		enum Noise_Type {
+			noise_basic,
+			noise_turbulence,
+			noise_billowy,
+			noise_rigid,
+			noise_hmf,
+		};
+		Noise_Type noise_type;
+	};
+
+	std::vector<Noise_Struct> noise_structs;
+
+
 	std::vector<sf::Uint8> pixels;
 
 	uint16_t image_size;
-	uint8_t octave{ 8 };
-	float step = 0.1f;
-	float persistance = 1.f;
-	float lacunarity = 2.f;
-	float frequency = 1.f;
-	float amplitude = 1.f;
 
 	uint8_t grass_level = 60;
 	uint8_t beach_level = 55;
@@ -76,9 +94,7 @@ private:
 	sf::Texture texture;
 	sf::Sprite sprite;
 
-	//hybrid multifractal variables, i have no idea what these mean, just plugging tjhen ill learn
-	float hbf_H = 0.25f;
-	float hbf_offset = 0.7f;
-	std::vector<double> hbf_exponent_array;
+	uint8_t currently_selected_texture;
+	uint8_t texture_count;
 
 };

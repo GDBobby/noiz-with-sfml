@@ -6,7 +6,7 @@ int main() {
     window.setFramerateLimit(144);
 
     sf::Font font;
-    if (!font.loadFromFile("src/sfmlextensions/bahnschrift.ttf")) {
+    if (!font.loadFromFile("res/bahnschrift.ttf")) {
         std::cout << "Failed to load font " << std::endl;
     }
     TerrainGeneration terrainGeneration{ window, font };
